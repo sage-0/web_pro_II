@@ -1,0 +1,23 @@
+services:
+  apache:
+    build:
+      context: .
+    ports:
+      - '80:80'
+    environment:
+      - TZ=Asia/Tokyo
+    volumes:
+      - ./htdocs:/usr/local/apache2/htdocs
+      - ./conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./logs/:/usr/local/apache2/logs
+      
+  vnu:
+    image: ghcr.io/validator/validator:latest
+    restart: unless-stopped
+
+  w3c:
+    build: .
+    image: ghcr.io/netresearch/validator-w3c
+    ports:
+     - "8080:80"
+    restart: unless-stopped
